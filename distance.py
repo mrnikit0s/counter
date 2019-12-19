@@ -36,15 +36,31 @@ def distance():
     distance = (Time * 34300) / 2
  
     return distance
-def count ():
-  # date 
-    now = datetime.now()
-    return datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
+
+def delta_distance():
+	prcnt = 10
+	avrg = 0
+	for i in range(50):
+		dst = distance()
+		avrg += dst
+	avrg = avrg/50
+	delta = avrg-(avrg/100.0*prcnt)
+
+	return delta
+	
+		
+	
+	
 
 if __name__ == '__main__':
-	
-    dist = distance()
-    print ("Distance = %.1f cm" % dist)
-    dat = count()
-    print (dat)
-    GPIO.cleanup()
+	avrg = average_distance()
+	print (avrg)
+
+#	for i in range(10):
+#		avg = average_distance()
+#		print (avg)
+#		dist = distance()
+#    		print ("Distance = %.1f cm" % avg)
+#    dat = count()
+#    print (dat)
+	GPIO.cleanup()
