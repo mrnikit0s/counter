@@ -17,7 +17,7 @@ def distance():
     # Посылаем импульс
     GPIO.output(GPIO_TRIGGER, True)
     # Время задержки (если расстояние > 3 метров - выставляем время 25-30 мсек)	
-    time.sleep(0.0001)
+    time.sleep(0.03)
     GPIO.output(GPIO_TRIGGER, False)
     # Инициализация переменных времени
     StartTime = time.time()
@@ -40,6 +40,8 @@ def distance():
  
     return distance
 
+
+
 def delta_distance():
     # Порог срабатывания ( процент от усреднённого расстояния )
 	prcnt = 10
@@ -49,17 +51,26 @@ def delta_distance():
 		dst = distance()
 		avrg += dst
 	avrg = avrg/50
-    # Если расстояние ниже delta - засчитывать проход
-	delta = avrg-(avrg/100.0*prcnt)
+	return avrg
 
-	return delta
+# ф-ция счетчик
+def count():
+	delta = delta_distance()
+	count = 0
+	# Вычисляем границы отклонений
+#	#for i in range(100):
+#		dest = distance()
+#		time.sleep(0.001)
+#		print(dest)
+#				
+#	except KeyboardInterrupt:
+#		print("Stopped")
 
-	
-		
-	
-	
 
-if __name__ == '__main__':
+if  __name__ == '__main__':
+#	count()
+
+
 	avrg = delta_distance()
 	print (avrg)
 
