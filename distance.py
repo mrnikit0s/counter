@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from datetime import datetime
 import time
  
 GPIO.setmode(GPIO.BCM)
@@ -35,8 +36,17 @@ def distance():
     distance = (Time * 34300) / 2
  
     return distance
- 
+def count ():
+	# date 
+	now = datetime.now()
+	date = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
+	
+    return date
+
 if __name__ == '__main__':
+	
     dist = distance()
     print ("Distance = %.1f cm" % dist)
+    dat = count()
+    print ("Date: " % dat)
     GPIO.cleanup()
