@@ -1,42 +1,38 @@
-#Libraries
 import RPi.GPIO as GPIO
 import time
  
-#GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
  
-#set GPIO Pins
-GPIO_TRIGGER = 18
+#Set trigger and echo GPIO
+GPIO_TRIGGER = 23
 GPIO_ECHO = 24
  
-#set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
  
 def distance():
-    # set Trigger to HIGH
+    # Send impulse on trigger 
     GPIO.output(GPIO_TRIGGER, True)
- 
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
+    time.sleep(0.000001)
     GPIO.output(GPIO_TRIGGER, False)
- 
+    # Init time var
     StartTime = time.time()
     StopTime = time.time()
  
-    # save StartTime
+    # save time send signal
     while GPIO.input(GPIO_ECHO) == 0:
         StartTime = time.time()
+	print ("Start time: %.1f" % StartTime)
  
-    # save time of arrival
+    # save time recieved signal
     while GPIO.input(GPIO_ECHO) == 1:
         StopTime = time.time()
+	print ("Stop time: %.1f" % StopTime)
  
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
+    # calc time
+    Time = StopTime - StartTime
+    # 
+    distance = (Time * 34300) / 2
  
     return distance
  
@@ -45,7 +41,7 @@ if __name__ == '__main__':
         while True:
             dist = distance()
             print ("Measured Distance = %.1f cm" % dist)
-            time.sleep(1)
+            time.sleep(0.3)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
