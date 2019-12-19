@@ -14,7 +14,7 @@ GPIO.setup(GPIO_ECHO, GPIO.IN)
 def distance():
     # Send impulse on trigger 
     GPIO.output(GPIO_TRIGGER, True)
-    time.sleep(0.000001)
+    time.sleep(0.0001)
     GPIO.output(GPIO_TRIGGER, False)
     # Init time var
     StartTime = time.time()
@@ -23,12 +23,12 @@ def distance():
     # save time send signal
     while GPIO.input(GPIO_ECHO) == 0:
         StartTime = time.time()
-	print ("Start time: %.1f" % StartTime)
+#	print ("Start time: %.1f" % StartTime)
  
     # save time recieved signal
     while GPIO.input(GPIO_ECHO) == 1:
         StopTime = time.time()
-	print ("Stop time: %.1f" % StopTime)
+#	print ("Stop time: %.1f" % StopTime)
  
     # calc time
     Time = StopTime - StartTime
@@ -37,16 +37,14 @@ def distance():
  
     return distance
 def count ():
-	# date 
-	now = datetime.now()
-	date = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
-	
-    return date
+  # date 
+    now = datetime.now()
+    return datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
 
 if __name__ == '__main__':
 	
     dist = distance()
     print ("Distance = %.1f cm" % dist)
     dat = count()
-    print ("Date: " % dat)
+    print (dat)
     GPIO.cleanup()
