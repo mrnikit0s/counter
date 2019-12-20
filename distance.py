@@ -54,24 +54,43 @@ def delta_distance():
 	return avrg
 
 # ф-ция счетчик
-def count():
-	delta = delta_distance()
+def count(avrg):
 	count = 0
+
+	min = avrg-(avrg*0.10)
+	max = avrg+(avrg*0.10)
+	#флаг перекрытия счетчика. по умолчанию - нет перекрытия
+	trig = 0
+	try:
+		while True:
+			delta = delta_distance()
+			if (delta < min) or (delta > max):
+				trig = 1
+			# ловим момент, когда прекратилось перекрытие, меняем тригер на 0 и считаем человека
+			if (trig == 1):
+				if (delta > min) and (delta < max):
+					count += 1
+					trig = 0
+					print("Count = ", count)
+			
+				
+#				count += 1
+#				print("Count+1= ", count)
+			time.sleep(0.01)	
 	# Вычисляем границы отклонений
 #	#for i in range(100):
 #		dest = distance()
 #		time.sleep(0.001)
 #		print(dest)
 #				
-#	except KeyboardInterrupt:
-#		print("Stopped")
+	except KeyboardInterrupt:
+		print("Stopped")
 
 
 if  __name__ == '__main__':
-#	count()
-
 
 	avrg = delta_distance()
+	count(avrg)
 	print (avrg)
 
 #	for i in range(10):
