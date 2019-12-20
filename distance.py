@@ -26,12 +26,10 @@ def distance():
     # Сохраняем время отправки сигнала
     while GPIO.input(GPIO_ECHO) == 0:
         StartTime = time.time()
-#	print ("Start time: %.1f" % StartTime)
  
     # Сохраняем время получения сигнала
     while GPIO.input(GPIO_ECHO) == 1:
         StopTime = time.time()
-#	print ("Stop time: %.1f" % StopTime)
  
     # Вычисляем время
     Time = StopTime - StartTime
@@ -52,6 +50,7 @@ def delta_distance():
 		avrg += dst
 	avrg = avrg/50
 	return avrg
+
 
 # ф-ция счетчик
 def count(avrg):
@@ -79,6 +78,7 @@ def count(avrg):
 				if (delta > min) and (delta < max):
 					count += 1
 					trig = 0
+					timeList = []
 					print("Count = ", count)
 						
 			time.sleep(0.01)	
