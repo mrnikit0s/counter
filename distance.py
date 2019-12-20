@@ -56,7 +56,8 @@ def delta_distance():
 # ф-ция счетчик
 def count(avrg):
 	count = 0
-
+	timeList = []
+	
 	min = avrg-(avrg*0.10)
 	max = avrg+(avrg*0.10)
 	#флаг перекрытия счетчика. по умолчанию - нет перекрытия
@@ -68,21 +69,19 @@ def count(avrg):
 				trig = 1
 			# ловим момент, когда прекратилось перекрытие, меняем тригер на 0 и считаем человека
 			if (trig == 1):
+				timeList.append(time.time())
+				delta_time = timeList[len(timeList)-1] - timeList[0]
+#				print("time: ", delta_time)
+				if (delta_time > 20):
+					print("Error!!!")
+					trig = 0
+					timeList = []
 				if (delta > min) and (delta < max):
 					count += 1
 					trig = 0
 					print("Count = ", count)
-			
-				
-#				count += 1
-#				print("Count+1= ", count)
+						
 			time.sleep(0.01)	
-	# Вычисляем границы отклонений
-#	#for i in range(100):
-#		dest = distance()
-#		time.sleep(0.001)
-#		print(dest)
-#				
 	except KeyboardInterrupt:
 		print("Stopped")
 
