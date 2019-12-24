@@ -17,7 +17,7 @@ def distance():
     # Посылаем импульс
     GPIO.output(GPIO_TRIGGER, True)
     # Время задержки (если расстояние > 3 метров - выставляем время 25-30 мсек)	
-    time.sleep(0.03)
+    time.sleep(0.02)
     GPIO.output(GPIO_TRIGGER, False)
     # Инициализация переменных времени
     StartTime = time.time()
@@ -70,7 +70,6 @@ def count(avrg):
 			if (trig == 1):
 				timeList.append(time.time())
 				delta_time = timeList[len(timeList)-1] - timeList[0]
-#				print("time: ", delta_time)
 				if (delta_time > 20):
 					print("Error!!!")
 					trig = 0
