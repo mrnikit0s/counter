@@ -9,9 +9,12 @@ GPIO.setmode(GPIO.BCM)
 # Задаем выходы GPIO для триггера и эхо
 GPIO_TRIGGER = 23
 GPIO_ECHO = 24
- 
+GPIO_LED = 17
+
+GPIO.setup(GPIO_LED, GPIO.OUT) 
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
+GPIO.setup(GPIO_LED, False)
  
 def distance():
     # Посылаем импульс
@@ -38,7 +41,10 @@ def distance():
  
     return distance
 
-
+def led():
+	GPIO.output(GPIO_LED, True)
+	time.sleep(0.2)
+	GPIO.output(GPIO_LED, False)
 
 def delta_distance():
     # Порог срабатывания ( процент от усреднённого расстояния )
@@ -59,7 +65,7 @@ def count(avrg):
 	
 	min = avrg-(avrg*0.10)
 	max = avrg+(avrg*0.10)
-	#флаг перекрытия счетчика. по умолчанию - нет перекрытия
+	# флаг перекрытия счетчика. по умолчанию - нет перекрытия
 	trig = 0
 	try:
 		while True:
@@ -75,6 +81,7 @@ def count(avrg):
 					trig = 0
 					timeList = []
 				if (delta > min) and (delta < max):
+					led()
 					count += 1
 					trig = 0
 					timeList = []
@@ -90,12 +97,4 @@ if  __name__ == '__main__':
 	avrg = delta_distance()
 	count(avrg)
 	print (avrg)
-
-#	for i in range(10):
-#		avg = delta_distance()
-#		print (avg)
-#		dist = distance()
-#    		print ("Distance = %.1f cm" % avg)
-#    dat = count()
-#    print (dat) выаыва
 	GPIO.cleanup()
